@@ -17,23 +17,23 @@
     {{-- API Configuration --}}
     <div class="form-group">
         <label for="api_base_url" class="form-label">API Base URL</label>
-        <input type="text" id="api_base_url" name="api_base_url" class="form-input" value="https://dev.platform.api.staging.loopit.co/api/portal">
+        <input type="text" id="api_base_url" name="api_base_url" class="form-input" value="https://platform.api.loopit.co/api/portal">
     </div>
 
     <div class="form-group">
         <label for="workspace" class="form-label">Workspace</label>
-        <input type="text" id="workspace" name="workspace" class="form-input" value="contract-template-test2">
+        <input type="text" id="workspace" name="workspace" class="form-input" value="rupesh-us-demo">
     </div>
 
     <div class="form-group">
         <label for="microsite" class="form-label">Microsite</label>
-        <input type="text" id="microsite" name="microsite" class="form-input" value="contract-template-test2.beta.myloopit.com">
+        <input type="text" id="microsite" name="microsite" class="form-input" value="rupesh-us-demo.myloopit.com">
     </div>
 
     {{-- Owner Configuration --}}
     <div class="form-group">
         <label for="billing_owner_id" class="form-label">Billing Owner ID</label>
-        <input type="text" id="billing_owner_id" name="billing_owner_id" class="form-input" value="a0e4adde-837e-47bb-bf56-a179e4ca5331">
+        <input type="text" id="billing_owner_id" name="billing_owner_id" class="form-input" value="a0c29b4e-3903-472c-aadb-05c4a7420103">
     </div>
 
     <div class="form-group">

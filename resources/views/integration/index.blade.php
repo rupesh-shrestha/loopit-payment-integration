@@ -60,7 +60,7 @@
         <pre class="code-block">&lt;script&gt;
 LoopitPaymentMethod.mount('#loopit-payment-method', {
     // Required: API configuration
-    apiBaseUrl: 'https://api.loopit.io/api/portal',
+    apiBaseUrl: 'https://platform.api.loopit.co/api/portal',
     workspace: 'your-workspace-slug',
     microsite: 'your-microsite.myloopit.com',
 
@@ -109,7 +109,7 @@ LoopitPaymentMethod.mount('#loopit-payment-method', {
                 <td><code>apiBaseUrl</code></td>
                 <td>string</td>
                 <td>Yes</td>
-                <td>Loopit API base URL (e.g., https://api.loopit.io/api/portal)</td>
+                <td>Loopit API base URL (e.g., https://platform.api.loopit.co/api/portal)</td>
             </tr>
             <tr>
                 <td><code>workspace</code></td>

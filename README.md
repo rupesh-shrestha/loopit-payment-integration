@@ -19,7 +19,7 @@ cp dist/loopit-payment-method.css /path/to/laravel/public/css/
 Add these variables to your `.env` file:
 
 ```env
-LOOPIT_API_URL=https://api.loopit.io/api/portal
+LOOPIT_API_URL=https://platform.api.loopit.co/api/portal
 LOOPIT_WORKSPACE=your-workspace-slug
 ```
 
