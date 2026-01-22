@@ -205,12 +205,28 @@ LoopitPaymentMethod.mount('#loopit-payment-method', {
         </div>
 
         <pre class="code-block">{
-    id: "pm_123456789",      // Payment method ID to use for charges
+    id: "pm_123456789",      // Payment method ID to create payment via Loopit API
     brand: "visa",           // Card brand (visa, mastercard, amex, etc.)
     last_4: "4242",          // Last 4 digits of card
     cardholder_name: "John Doe",
     exp_month: 12,
     exp_year: 2025
+}</pre>
+    </div>
+
+    {{-- Backend Usage --}}
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title config-title">Backend Usage</h2>
+            <p class="card-description">Use the <code>payment_method_id</code> to create a payment via the Loopit API</p>
+        </div>
+
+        <pre class="code-block">// In your controller
+public function processCheckout(Request $request)
+{
+    $paymentMethodId = $request->input('payment_method_id');
+
+    // Use the payment_method_id to create a payment via Loopit API
 }</pre>
     </div>
 @endsection
