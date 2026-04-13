@@ -17,13 +17,16 @@
         <div class="alert alert-info">
             <strong>Features:</strong>
             <ul class="features-list">
-                <li>Add a payment method (Stripe card only)</li>
-                <li>Display selected payment method with brand image</li>
+                <li>Add a payment method — supports <strong>card</strong> and <strong>AU BECS Direct Debit</strong></li>
+                <li>Payment method type is driven by your workspace gateway config — no extra SDK options needed</li>
+                <li>Display selected payment method with brand/type icon</li>
                 <li>Remove payment method</li>
                 <li>Returns <code>payment_method_id</code> for separate payment collection</li>
             </ul>
             <p class="features-note">
-                <strong>Note:</strong> Only supports <strong>Stripe</strong> for <strong>card payments</strong>.
+                <strong>Note:</strong> Only supports <strong>Stripe</strong> as the gateway provider.
+                The SDK automatically renders the correct form based on the <code>payment_method_type</code>
+                returned by the API (<code>card</code> or <code>au_becs_debit</code>).
             </p>
         </div>
 
@@ -68,15 +71,27 @@ LoopitPaymentMethod.mount('#loopit-payment-method', {
     ownerId: 'uuid-of-person-or-company',
     ownerType: 'person', // or 'company'
 
-    // Callbacks
+    // Optional: restrict which payment types to show.
+    // Omit to show all types configured for the workspace.
+    // paymentMethodTypes: ['card'],              // card only
+    // paymentMethodTypes: ['au_becs_debit'],     // BECS only
+    // paymentMethodTypes: ['card', 'au_becs_debit'], // both (tab selector shown)
+
+    // Optional: fired as soon as the API config is resolved.
+    // config.payment_method_type.type will be 'card' or 'au_becs_debit'
+    // depending on how your workspace gateway is configured.
+    onConfigLoaded: function(config) {
+        console.log('Payment type:', config.payment_method_type.type);
+    },
+
     onPaymentMethodAdded: function(paymentMethod) {
         console.log('Payment method added:', paymentMethod);
+        // paymentMethod.type is 'card' or 'au_becs_debit'
         document.getElementById('payment_method_id').value = paymentMethod.id;
         document.getElementById('submit-btn').disabled = false;
     },
 
     onPaymentMethodRemoved: function() {
-        console.log('Payment method removed');
         document.getElementById('payment_method_id').value = '';
         document.getElementById('submit-btn').disabled = true;
     },
@@ -136,10 +151,26 @@ LoopitPaymentMethod.mount('#loopit-payment-method', {
                 <td>'person' or 'company'</td>
             </tr>
             <tr>
+                <td><code>paymentMethodTypes</code></td>
+                <td>string[]</td>
+                <td>No</td>
+                <td>
+                    Restrict which payment types to show. If omitted, all types configured for the workspace are shown.<br>
+                    Accepted values: <code>'card'</code>, <code>'au_becs_debit'</code><br>
+                    Examples: <code>['card']</code> &mdash; card only &nbsp;|&nbsp; <code>['au_becs_debit']</code> &mdash; BECS only &nbsp;|&nbsp; <code>['card', 'au_becs_debit']</code> &mdash; both (with tab selector)
+                </td>
+            </tr>
+            <tr>
+                <td><code>onConfigLoaded</code></td>
+                <td>function</td>
+                <td>No</td>
+                <td>Fired once the payment config is fetched. Receives the config object including <code>payment_method_type.type</code> (<code>'card'</code> or <code>'au_becs_debit'</code>)</td>
+            </tr>
+            <tr>
                 <td><code>onPaymentMethodAdded</code></td>
                 <td>function</td>
                 <td>No</td>
-                <td>Callback when payment method is added</td>
+                <td>Callback when payment method is added. Receives the payment method object including <code>type</code></td>
             </tr>
             <tr>
                 <td><code>onPaymentMethodRemoved</code></td>
@@ -204,13 +235,23 @@ LoopitPaymentMethod.mount('#loopit-payment-method', {
             <p class="card-description">The object returned in <code>onPaymentMethodAdded</code> callback</p>
         </div>
 
-        <pre class="code-block">{
-    id: "pm_123456789",      // Payment method ID to create payment via Loopit API
-    brand: "visa",           // Card brand (visa, mastercard, amex, etc.)
-    last_4: "4242",          // Last 4 digits of card
+        <pre class="code-block">// Card payment method
+{
+    id: "pm_123456789",         // Payment method ID
+    type: "card",               // Payment method type
+    brand: "visa",              // Card brand (visa, mastercard, amex, etc.)
+    last_4: "4242",             // Last 4 digits of card number
     cardholder_name: "John Doe",
     exp_month: 12,
     exp_year: 2025
+}
+
+// AU BECS Direct Debit payment method
+{
+    id: "pm_987654321",         // Payment method ID
+    type: "au_becs_debit",      // Payment method type
+    brand: "au_becs_debit",
+    last_4: "0001"              // Last digits of BSB/account
 }</pre>
     </div>
 
